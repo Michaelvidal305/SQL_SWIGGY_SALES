@@ -9,14 +9,23 @@ The first goal is to ensure data quality by performing:
 **Null Check**
 Identify missing values in:
   -State
+  
   -City
+  
   -Order_Date
+  
   -Restaurant_Name
+  
   -Location
+  
   -Category
+  
   -Dish_Name
+  
   -Price_INR
+  
   -Rating
+  
   -Rating_Count
 
 **Blank/Empty String Check**
@@ -33,14 +42,19 @@ Dimensional modelling helps organize data in a way that makes analysis simple, c
 To optimize analytics and reporting, build a Star Schema with the following dimension tables:
  
   -dim_date → Year, Month, Quarter, Week
+  
   -dim_location → State, City, Location
+  
   -dim_restaurant → Restaurant_Name
+  
   -dim_category → Cuisine/Category
+  
   -dim_dish → Dish_Name
 
 **Central fact table:**
 
   -fact_swiggy_orders → Price_INR, Rating, Rating_Count, foreign keys to all dimensions
+
 Populate each dimension with distinct data from the cleaned source and load fact table with all keys resolved.
 
 **KPI Development**
@@ -50,8 +64,11 @@ Once the schema is built, compute core performance indicators:
 **Basic KPIs**
 
   -Total Orders
+  
   -Total Revenue (INR Million)
+  
   -Average Dish Price
+  
   -Average Rating
 
 **Deep-Dive Business Analysis**
@@ -59,29 +76,42 @@ Once the schema is built, compute core performance indicators:
 **Date-Based Analysis**
 
   -Monthly order trends
+  
   -Quarterly order trends
+  
   -Year-wise growth
+  
   -Day-of-week patterns
 
 **Location-Based Analysis**
 
   -Top 10 cities by order volume
+  
   -Revenue contribution by states
 
 **Food Performance**
 
   -Top 10 restaurants by orders
+  
   -Top categories (Indian, Chinese, etc.)
+  
   -Most ordered dishes
+  
   -Cuisine performance → Orders + Avg Rating
 
 **Customer Spending Insights**
 Buckets of customer spend:
+  
   -Under 100
+  
   -100–199
+  
   -200–299
+  
   -300–499
+  
   -500+
+
 With total order distribution across these ranges.
 
 **Ratings Analysis**
