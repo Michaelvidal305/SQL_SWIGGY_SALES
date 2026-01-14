@@ -74,47 +74,53 @@ DELETE FROM cte WHERE rn > 1;
 --dim_date
 ============================================================
 
+--CREATE SCHEMA 
+--CREATE ALL DIMENSIONS TABLE 
+--dim_date
 CREATE TABLE dim_date (
-	date_id INT PRIMARY KEY,
+	date_id SERIAL PRIMARY KEY,
 	full_date DATE,
-	year INT,
-	month INT,
-	month_name VARCHAR(20),
-	quarter INT, 
-	day INT,
-	week INT
+	Year INT,
+	Month INT,
+	Month_name VARCHAR(20),
+	Quarter INT, 
+	Day INT,
+	Week INT
 );
 
-
+	
 --dim_location
 CREATE TABLE dim_location (
-	location_id INT PRIMARY KEY,
-	state VARCHAR(100),
-	city VARCHAR(100),
-	location VARCHAR(200)
+	Location_id SERIAL PRIMARY KEY,
+	State VARCHAR(100),
+	City VARCHAR(100),
+	Location VARCHAR(200)
 );
 
 --dim_restaurant
 CREATE TABLE dim_restaurant (
-	restaurant_id INT PRIMARY KEY,
+	restaurant_id SERIAL PRIMARY KEY,
 	restaurant_name VARCHAR(200)
 );
 
 --dim_category
 CREATE TABLE dim_category (
-	category_id INT PRIMARY KEY,
+	category_id SERIAL PRIMARY KEY,
 	category VARCHAR(200)
 );
 
 --dim_dish
 CREATE TABLE dim_dish (
-	dish_id INT PRIMARY KEY,
+	dish_id SERIAL PRIMARY KEY,
 	dish_name VARCHAR(200)
 );
 
+============================================================
 --CREATE FACT TABLE 
+============================================================
+
 CREATE TABLE fact_swiggy_orders(
-	order_id INT PRIMARY KEY,
+	order_id SERIAL PRIMARY KEY,
 	
 	date_id INT, 
 	price DECIMAL(10,2),
@@ -140,12 +146,94 @@ CREATE TABLE fact_swiggy_orders(
 
 INSERT INTO dim_date (full_date, year, month, month_name, quarter, day, week)
 SELECT DISTINCT
-	order_date,
-	EXTRACT(year from order_date),
-	EXTRACT(month from order_date),
-	datename(month, order_date),
-	datepart(quarter,order_date),
-	EXTRACT(day from order_date),
-	datepart(week, order_date)
+    order_date,
+    EXTRACT(YEAR FROM order_date)        AS year,
+    EXTRACT(MONTH FROM order_date)       AS month,
+    TO_CHAR(order_date, 'Month')         AS month_name,
+    EXTRACT(QUARTER FROM order_date)     AS quarter,
+    EXTRACT(DAY FROM order_date)         AS day,
+    EXTRACT(WEEK FROM order_date)        AS week
 FROM swiggy_sales
 WHERE order_date IS NOT NULL;
+
+--dim_location 
+INSERT INTO dim_location (state, city, location)
+SELECT DISTINCT
+	state,
+	city,
+	location
+FROM swiggy_sales;
+
+--dim_restaurant
+INSERT INTO dim_restaurant (restaurant_name)
+SELECT DISTINCT
+	restaurant_name
+FROM swiggy_sales
+
+--dim_category
+INSERT INTO dim_category (category)
+SELECT DISTINCT
+	category
+FROM swiggy_sales;
+
+--dim_dish
+INSERT INTO dim_dish (dish_name)
+SELECT DISTINCT
+	dish_name
+FROM swiggy_sales;
+
+============================================================
+--INSERT INTO FACT TABLE
+============================================================
+
+INSERT INTO fact_swiggy_orders
+(
+	date_id,
+	price,
+	rating,
+	rating_count,
+	location_id,
+	restaurant_id,
+	category_id,
+	dish_id
+)
+SELECT 
+	dd.date_id,
+	s.price,
+	s.rating,
+	s.rating_count,
+
+	dl.location_id,
+	dr.restaurant_id,
+	dc.category_id,
+	dsh.dish_id
+FROM swiggy_sales s 
+
+JOIN dim_date dd
+	ON dd.full_date = s.order_date
+
+JOIN dim_location dl
+	ON dl.state = s.state
+	AND dl.city = s.city
+
+JOIN dim_restaurant dr
+	ON dr.restaurant_name = s.restaurant_name
+
+JOIN dim_category dc
+	ON dc.category = s.category
+
+JOIN dim_dish dsh
+	ON dsh.dish_name = s.dish_name;
+
+SELECT * FROM dim_date;
+SELECT * FROM dim_location;
+SELECT * FROM dim_restaurant;
+SELECT * FROM dim_category;
+SELECT * FROM dim_dish;
+SELECT * FROM fact_swiggy_orders;
+
+SELECT * FROM fact_swiggy_orders f
+JOIN dim_date d ON f.date_id = d.date_id
+JOIN dim_location l ON f.location_id = l.location_id
+JOIN dim_restaurant r ON f.restaurant_id = r.restaurant_id
+JOIN dim_category c ON f.category_id = c.category_id
