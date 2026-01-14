@@ -1,4 +1,5 @@
---        Swiggy Sale Analysis SQL - Postgres Database Setup
+--    Swiggy Sale Analysis SQL - Postgres Database Setup
+============================================================
 CREATE TABLE swiggy_sales (
 	state varchar(255),
 	city varchar(255),
