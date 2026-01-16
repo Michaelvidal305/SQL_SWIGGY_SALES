@@ -9,6 +9,7 @@ The first goal is to ensure data quality by performing:
 
 **Null Check**
 Identify missing values in:
+ 
   -State
   
   -City
