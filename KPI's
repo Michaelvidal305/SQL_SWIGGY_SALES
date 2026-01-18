@@ -26,7 +26,9 @@ FROM fact_swiggy_orders;
 SELECT AVG(rating) AS avg_rating
 FROM fact_swiggy_orders;
 
+============================================================
 --Deep-Dive Business Analysis
+============================================================
 
 --Monthly Orders (YYYY-MM)
 SELECT
@@ -108,3 +110,71 @@ GROUP BY c.category
 ORDER BY total_orders DESC;
 
 --Most Ordered Dishes
+SELECT 
+	d.dish_name,
+	COUNT(*) AS order_count
+FROM fact_swiggy_orders f
+JOIN dim_dish d 
+	ON f.dish_id = d.dish_id
+GROUP BY 
+	d.dish_name
+ORDER BY 
+	order_count DESC
+LIMIT 10 OFFSET 0;
+
+--Total Revenue by state
+SELECT 
+    l.state,
+    SUM(f.price::numeric) AS total_revenue
+FROM fact_swiggy_orders f
+JOIN dim_location l 
+    ON f.location_id = l.location_id
+GROUP BY 
+    l.state
+ORDER BY 
+    total_revenue DESC;
+
+--Total Orders by Price Range
+SELECT 
+    CASE
+        WHEN price::numeric < 100 THEN 'Under 100'
+        WHEN price::numeric BETWEEN 100 AND 199 THEN '100 - 199'
+        WHEN price::numeric BETWEEN 200 AND 299 THEN '200 - 299'
+        WHEN price::numeric BETWEEN 300 AND 399 THEN '300 - 399'
+        ELSE '500+'
+    END AS price_range,
+    COUNT(*) AS total_orders
+FROM fact_swiggy_orders
+GROUP BY
+    CASE
+        WHEN price::numeric < 100 THEN 'Under 100'
+        WHEN price::numeric BETWEEN 100 AND 199 THEN '100 - 199'
+        WHEN price::numeric BETWEEN 200 AND 299 THEN '200 - 299'
+        WHEN price::numeric BETWEEN 300 AND 399 THEN '300 - 399'
+        ELSE '500+'
+    END
+ORDER BY total_orders DESC;
+
+--Cuisine Performance (Orders + Avg Rating)
+SELECT
+	c.category,
+	COUNT(*) AS total_orders,
+	AVG(f.rating) AS avg_rating
+FROM fact_swiggy_orders f
+JOIN dim_category c
+	ON f.category_id = c.category_id
+GROUP BY 
+	c.category
+ORDER BY 
+	total_orders DESC;
+
+
+--Rating Count Distribution (1-5)
+SELECT
+	rating,
+	COUNT(*) AS rating_count
+FROM fact_swiggy_orders
+GROUP BY 
+	rating
+ORDER BY 
+	rating;
