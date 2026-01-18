@@ -26,7 +26,7 @@ FROM fact_swiggy_orders;
 SELECT AVG(rating) AS avg_rating
 FROM fact_swiggy_orders;
 
---GRANULAR REQUIREMENTS
+--Deep-Dive Business Analysis
 
 --Monthly Orders (YYYY-MM)
 SELECT
