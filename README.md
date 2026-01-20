@@ -1,13 +1,14 @@
-**SWIGGY SALES ANALYSIS**
+## SWIGGY SALES ANALYSIS
 
 
 **BUSINESS REQUIREMENTS**
-
+---
 **Data Cleaning & Validation**
 The raw table swiggy_data contains food delivery records across states, cities, restaurants, categories, and dishes.
 The first goal is to ensure data quality by performing:
 
 **Null Check**
+
 Identify missing values in:
  
   -State
@@ -39,7 +40,7 @@ Find duplicate rows using grouping on all business-critical columns.
 **Duplicate Removal**
 Use ROW_NUMBER() to delete surplus duplicate rows while retaining one clean copy for each unique order.
 
-**Dimensional Modelling (Star Schema)**
+## Dimensional Modelling (Star Schema)
 Dimensional modelling helps organize data in a way that makes analysis simple, consistent, and extremely efficient. Instead of keeping all information mixed in one large table, the Star Schema separates descriptive information into dimensions and keeps all measurable values in a central fact table. This structure reduces data duplication, improves clarity, and makes the entire dataset easier to understand. It also supports faster reporting because queries can access small, focused tables rather than scanning a single bulky dataset. Most analytics and BI tools are designed to work best with star schemas, so this approach ensures smooth dashboard creation, accurate aggregations, and reliable insights. Overall, dimensional modelling provides a clean, scalable, and performance-optimized foundation for any analytical system, regardless of the industry or data source.
 To optimize analytics and reporting, build a Star Schema with the following dimension tables:
  
@@ -59,7 +60,7 @@ To optimize analytics and reporting, build a Star Schema with the following dime
 
 Populate each dimension with distinct data from the cleaned source and load fact table with all keys resolved.
 
-**KPI Development**
+## KPI Development
 
 Once the schema is built, compute core performance indicators:
 
