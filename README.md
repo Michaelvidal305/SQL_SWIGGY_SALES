@@ -74,7 +74,7 @@ Once the schema is built, compute core performance indicators:
   
   -Average Rating
 
-**Deep-Dive Business Analysis**
+## Deep-Dive Business Analysis
 
 **Date-Based Analysis**
 
