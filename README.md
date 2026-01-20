@@ -103,6 +103,7 @@ Once the schema is built, compute core performance indicators:
   -Cuisine performance → Orders + Avg Rating
 
 **Customer Spending Insights**
+
 Buckets of customer spend:
   
   -Under 100
@@ -118,4 +119,5 @@ Buckets of customer spend:
 With total order distribution across these ranges.
 
 **Ratings Analysis**
+
 Distribution of dish ratings from 1–5.
