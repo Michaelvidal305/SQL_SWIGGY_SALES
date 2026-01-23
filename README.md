@@ -59,7 +59,7 @@ To optimize analytics and reporting, build a Star Schema with the following dime
 
 **Central fact table:**
 
-  -fact_swiggy_orders → Price_INR, Rating, Rating_Count, foreign keys to all dimensions
+  -fact_swiggy_orders → Price, Rating, Rating_Count, foreign keys to all dimensions
 
 Populate each dimension with distinct data from the cleaned source and load fact table with all keys resolved.
 
