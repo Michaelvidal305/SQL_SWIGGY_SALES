@@ -1,7 +1,7 @@
 ## SWIGGY SALES ANALYSIS
 
 ## 📂 Data Source
-- [swiggy_data.csv](Data/swiggy_data.xlsx - swiggy_data.csv)
+- [swiggy_data.csv]([Data/swiggy_data.xlsx - swiggy_data.csv](https://github.com/Michaelvidal305/SQL_SWIGGY_SALES/blob/main/Data/swiggy_data.xlsx%20-%20swiggy_data.csv))
 
 
 **BUSINESS REQUIREMENTS**
