@@ -1,4 +1,4 @@
-## SWIGGY SALES ANALYSIS
+# SWIGGY SALES ANALYSIS
 
 ## 📂 Data Source
 - [swiggy_data.csv](https://github.com/Michaelvidal305/SQL_SWIGGY_SALES/tree/main/Data)
